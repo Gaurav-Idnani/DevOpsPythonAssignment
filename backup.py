@@ -66,7 +66,10 @@ def writeFilesToDestinationDirectory (sourcefileDictionary , filesInDestinationD
             file.write(fileContent)
 
 def checkDirectoryValidity(dirToCheck , accessLevel):
-    accessCheck = os.access(dirToCheck, os.R_OK) if accessLevel == 'Read' else os.access(dirToCheck, os.W_OK) 
+    if accessLevel == 'Read': 
+        accessCheck = os.access(dirToCheck, os.R_OK) 
+    else:
+        accessCheck = os.access(dirToCheck, os.W_OK) 
     if os.path.isdir(dirToCheck) and accessCheck :
         return True
     else:

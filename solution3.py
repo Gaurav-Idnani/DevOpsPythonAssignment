@@ -36,6 +36,7 @@
 
 from flask import Flask,jsonify
 import re
+import json
 app = Flask(__name__)
 
 @app.route('/')
@@ -69,14 +70,17 @@ def configFileParse():
     print (listOfConfigs)
     with open('configReportFile.txt', 'w') as fileObj:
         fileObj.write ("Configuration File Parser Results:\n")
-        for config in listOfConfigs:
-            for key in config:
-                if key == "configName":
-                    fileObj.write (config[key]+":\n")
-                else:
-                    fileObj.write ("- "+key+": "+config[key]+"\n")    
+        json.dump(listOfConfigs,fileObj)
     
-    return jsonify(listOfConfigs)
+    returnStr=''
+    for config in listOfConfigs:
+        for key in config:
+            if key == "configName":
+                returnStr+= (config[key]+":<br/>")
+            else:
+                returnStr+= ("- "+key+": "+config[key]+"<br/>")    
+    
+    return returnStr
     
 
    
